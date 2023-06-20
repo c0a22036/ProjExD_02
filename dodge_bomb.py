@@ -1,6 +1,5 @@
 import random
 import pygame as pg
-
 import sys
 
 # 練習４
@@ -9,7 +8,7 @@ delta = {
     pg.K_DOWN: (0, +1),
     pg.K_LEFT: (-1, 0),
     pg.K_RIGHT: (+1, 0),
-    }
+}
 
 # 練習５
 def check_bound(scr_rct: pg.Rect, obj_rct: pg.Rect) -> tuple[bool,bool]:
@@ -25,6 +24,12 @@ def check_bound(scr_rct: pg.Rect, obj_rct: pg.Rect) -> tuple[bool,bool]:
     if obj_rct.top < scr_rct.top or scr_rct.bottom < obj_rct.bottom:
         tate = False
     return yoko, tate
+
+def draw_game_over(screen):#追加機能5-2　ゲームオーバーと表示する
+    font = pg.font.Font("ipaexg.ttf", 100)
+    text = font.render("ゲームオーバー", True, (255, 0, 0))
+    text_rect = text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+    screen.blit(text, text_rect)
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -62,7 +67,7 @@ def main():
         (-1, +1): pg.transform.rotate(pg.transform.flip(kk_img, False, False), -315),#
         (-1, 0): pg.transform.rotate(pg.transform.flip(kk_img, False, False), 0),#
         (-1, -1): pg.transform.rotate(pg.transform.flip(kk_img, False, False), -40),#
-        }
+    }
 
     while True:
         for event in pg.event.get():
@@ -101,13 +106,18 @@ def main():
             overtime = tmr  #追加機能３
 
         if gameover == True:  #追加機能３
-            if  tmr - overtime > 200:  #追加機能３ 
-                return  #追加機能３
+            if  tmr - overtime > 500:  #追加機能３ 
+                screen.blit(bg_img, [0, 0])
+                draw_game_over(screen)
+                pg.display.update()
+                if  tmr - overtime > 900:#追加機能5-2
+                    pg.display.update()
+                    return
 
         pg.display.update()
         clock.tick(1000)
 
-def start():#スタート時に少しの間kkを跳ねさせる
+def start():#スタート時にkkを跳ねさせる 追加機能5-1
 
     pg.display.set_caption("逃げろ！こうかとん")
     clock = pg.time.Clock()
