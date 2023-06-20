@@ -86,7 +86,7 @@ def main():
 
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, kk_rct)  #練習４
-        bb_rct.move_ip(avx,avy) # 練習３
+        bb_rct.move_ip(avx,avy) # 練習３&追加機能2
         yoko, tate = check_bound(screen.get_rect(), bb_rct)
         if not yoko: # 横方法にはみ出ていたら
             vx *= -1
@@ -94,8 +94,15 @@ def main():
             vy *= -1
         screen.blit(bb_img, bb_rct) # 練習３
         
-        if kk_rct.colliderect(bb_rct): 
-            return
+        if kk_rct.colliderect(bb_rct): #練習６
+            kk_img = pg.image.load("ex02/fig/8.png")  #追加機能３
+            kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)  #追加機能３
+            gameover = True  #追加機能３
+            overtime = tmr  #追加機能３
+
+        if gameover == True:  #追加機能３
+            if  tmr - overtime > 200:  #追加機能３ 
+                return  #追加機能３
 
         pg.display.update()
         clock.tick(1000)
