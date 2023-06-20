@@ -107,7 +107,7 @@ def main():
         pg.display.update()
         clock.tick(1000)
 
-def start():#スタート時にkkを跳ねさせる
+def start():#スタート時に少しの間kkを跳ねさせる
 
     pg.display.set_caption("逃げろ！こうかとん")
     clock = pg.time.Clock()
