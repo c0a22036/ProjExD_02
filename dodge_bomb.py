@@ -9,7 +9,7 @@ RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
 def main():
-    pg.display.set_caption("逃げろ！こうかとん")
+    pg.display.set_caption("逃げろ!こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
