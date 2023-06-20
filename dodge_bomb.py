@@ -42,9 +42,16 @@ def main():
     bb_img.set_colorkey((0,0,0)) # 練習１
     x, y = random.randint(0,1600), random.randint(0,900) # 練習2
     vx, vy = +1, +1 # 練習３
+    avx, avy = +1, +1  #追加機能2
+
     bb_rct = bb_img.get_rect() # 練習３
     bb_rct.center = x, y # 練習３
+    
+    accs = [ a for a in range(1, 11)] #加速度のリスト
+
     tmr = 0
+    overtime = -1
+    gameover = False
 
     kokaton = {
         (0, -1): pg.transform.rotate(pg.transform.flip(kk_img, False, False), -90),#上
@@ -64,6 +71,8 @@ def main():
 
         tmr += 1
 
+        avx, avy = vx*accs[min(tmr//1000, 9)], vy*accs[min(tmr//1000, 9)]  #追加機能2
+
         # 練習４
         key_lst = pg.key.get_pressed()
         for k, mv in delta.items():
@@ -77,7 +86,7 @@ def main():
 
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, kk_rct)  #練習４
-        bb_rct.move_ip(vx, vy) # 練習３
+        bb_rct.move_ip(avx,avy) # 練習３
         yoko, tate = check_bound(screen.get_rect(), bb_rct)
         if not yoko: # 横方法にはみ出ていたら
             vx *= -1
@@ -91,11 +100,35 @@ def main():
         pg.display.update()
         clock.tick(1000)
 
+def start():#スタート時にkkを跳ねさせる
 
+    pg.display.set_caption("逃げろ！こうかとん")
+    clock = pg.time.Clock()
+    screen = pg.display.set_mode((1600, 900))
+    bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
+    kk_img = pg.image.load("ex02/fig/9.png")
+    kk_img = pg.transform.rotozoom(kk_img, -10, 3.0)
+    kk10_img = pg.transform.rotozoom(kk_img, 10, 1.0)
+    kk_imgs = [kk_img,kk10_img]
+    tmr = 0
+
+    while True:
+        tmr += 1
+        if tmr%100 <= 50:
+            a = 1
+        else:
+            a = 0
+        screen.blit(bg_img, [0, 0])
+        screen.blit(kk_imgs[a], [700 ,300])
+        if tmr == 500:
+            return 0
+        
+        pg.display.update()
+        clock.tick(1000)
 
 if __name__ == "__main__": 
     pg.init()
-    
+    start()
     main()
     pg.quit()
     sys.exit()
